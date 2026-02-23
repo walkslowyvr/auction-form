@@ -28,6 +28,9 @@ const INITIAL_DATA: FormData = {
 const brokerName = process.env.NEXT_PUBLIC_BROKER_NAME || '담당 공인중개사';
 const brokerOffice = process.env.NEXT_PUBLIC_BROKER_OFFICE || '경매대행 서비스';
 const brokerPhone = process.env.NEXT_PUBLIC_BROKER_PHONE || '';
+const brokerInstagram = process.env.NEXT_PUBLIC_BROKER_INSTAGRAM || '';
+const brokerYoutube = process.env.NEXT_PUBLIC_BROKER_YOUTUBE || '';
+const brokerThreads = process.env.NEXT_PUBLIC_BROKER_THREADS || '';
 
 export default function InquiryForm() {
     const [step, setStep] = useState<Step>(1);
@@ -81,7 +84,8 @@ export default function InquiryForm() {
     };
 
     if (isSuccess) {
-        return <SuccessScreen brokerName={brokerName} brokerPhone={brokerPhone} />;
+        return <SuccessScreen brokerName={brokerName} brokerPhone={brokerPhone}
+            instagram={brokerInstagram} youtube={brokerYoutube} threads={brokerThreads} />;
     }
 
     return (
@@ -335,7 +339,20 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
     );
 }
 
-function SuccessScreen({ brokerName, brokerPhone }: { brokerName: string; brokerPhone: string }) {
+function SuccessScreen({
+    brokerName, brokerPhone, instagram, youtube, threads
+}: {
+    brokerName: string;
+    brokerPhone: string;
+    instagram: string;
+    youtube: string;
+    threads: string;
+}) {
+    const socialLinks = [
+        { url: instagram, label: 'Instagram', icon: '📸', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
+        { url: youtube, label: 'YouTube', icon: '📺', color: 'bg-red-500' },
+        { url: threads, label: 'Threads', icon: '🧵', color: 'bg-gray-900' },
+    ].filter(s => s.url);
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 flex flex-col items-center justify-center px-5 text-center">
             <div className="bg-white rounded-3xl p-8 shadow-2xl max-w-sm w-full">
@@ -355,6 +372,23 @@ function SuccessScreen({ brokerName, brokerPhone }: { brokerName: string; broker
                     >
                         📞 {brokerName}에게 직접 전화하기
                     </a>
+                )}
+                {socialLinks.length > 0 && (
+                    <div className="mt-5 space-y-2">
+                        <p className="text-xs text-gray-400 mb-3">더 많은 정보 보기</p>
+                        {socialLinks.map((s) => (
+                            <a
+                                key={s.label}
+                                href={s.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-sm text-white ${s.color}`}
+                            >
+                                <span>{s.icon}</span>
+                                <span>{s.label}</span>
+                            </a>
+                        ))}
+                    </div>
                 )}
                 <p className="text-xs text-gray-300 mt-4">
                     본 서비스는 법적 조언이 아닌 정보 제공 목적입니다
