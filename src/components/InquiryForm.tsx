@@ -272,7 +272,7 @@ export default function InquiryForm() {
                         {/* 면책 고지 */}
                         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5 text-xs text-amber-800 leading-relaxed">
                             <p className="font-bold mb-1">⚠️ 안내 사항</p>
-                            본 분석은 1차 요약 데이터로 법적 효력이 없으며, 최종 입찰 전 반드시 대면 상담을 진행해야 합니다.
+                            본 분석은 1차 요약 데이터로 법적 효력이 없습니다.
                         </div>
 
                         {/* 개인정보 동의 */}
