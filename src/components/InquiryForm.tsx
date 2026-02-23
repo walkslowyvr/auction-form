@@ -344,7 +344,7 @@ function SuccessScreen({ brokerName, brokerPhone }: { brokerName: string; broker
                 </div>
                 <h2 className="text-gray-800 text-2xl font-bold mb-2">의뢰가 접수되었습니다!</h2>
                 <p className="text-gray-500 text-sm leading-relaxed mb-6">
-                    전문가가 권리분석 후 <strong className="text-blue-900">입력하신 연락처로 빠르게 안내</strong>해 드리겠습니다.
+                    권리분석 후 <strong className="text-blue-900">입력하신 연락처로 빠르게 안내</strong>해 드리겠습니다.
                     <br /><br />
                     <span className="text-xs text-gray-400">※ 분석 결과 발송까지 통상 수분~수십분이 소요될 수 있습니다.</span>
                 </p>
