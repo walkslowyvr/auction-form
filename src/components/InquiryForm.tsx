@@ -8,7 +8,8 @@ type Step = 1 | 2 | 3;
 interface FormData {
     name: string;
     phone: string;
-    case_number: string;
+    case_year: string;    // 연도 (예: 2024)
+    case_seq: string;     // 번호 (예: 12345)
     property_number: string;
     inquiry: string;
     agreed: boolean;
@@ -17,7 +18,8 @@ interface FormData {
 const INITIAL_DATA: FormData = {
     name: '',
     phone: '',
-    case_number: '',
+    case_year: '',
+    case_seq: '',
     property_number: '',
     inquiry: '',
     agreed: false,
@@ -55,7 +57,8 @@ export default function InquiryForm() {
     };
 
     const canProceedStep1 = formData.name.trim() && formData.phone.replace(/\D/g, '').length >= 10;
-    const canProceedStep2 = formData.case_number.trim().length >= 5;
+    const fullCaseNumber = `${formData.case_year.trim()}타경${formData.case_seq.trim()}`;
+    const canProceedStep2 = formData.case_year.trim().length === 4 && formData.case_seq.trim().length >= 1;
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
@@ -64,7 +67,7 @@ export default function InquiryForm() {
             const { error: sbError } = await getSupabase().from('leads').insert({
                 name: formData.name.trim(),
                 phone: formData.phone,
-                case_number: formData.case_number.trim(),
+                case_number: fullCaseNumber,
                 property_number: formData.property_number.trim() || null,
                 inquiry: formData.inquiry.trim() || null,
             });
@@ -172,13 +175,27 @@ export default function InquiryForm() {
                                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                                     사건번호 <span className="text-red-500">*</span>
                                 </label>
-                                <input
-                                    type="text"
-                                    placeholder="예) 2024타경12345"
-                                    value={formData.case_number}
-                                    onChange={update('case_number')}
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-gray-800 placeholder-gray-300 transition-all duration-200 text-base"
-                                />
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength={4}
+                                        placeholder="2024"
+                                        value={formData.case_year}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, case_year: e.target.value.replace(/\D/g, '').slice(0, 4) }))}
+                                        className="w-24 border border-gray-200 rounded-xl px-3 py-3.5 text-gray-800 placeholder-gray-300 text-base text-center"
+                                    />
+                                    <span className="text-gray-700 font-bold text-base px-1 whitespace-nowrap bg-gray-100 rounded-lg px-3 py-3.5">타경</span>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength={6}
+                                        placeholder="12345"
+                                        value={formData.case_seq}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, case_seq: e.target.value.replace(/\D/g, '').slice(0, 6) }))}
+                                        className="flex-1 border border-gray-200 rounded-xl px-3 py-3.5 text-gray-800 placeholder-gray-300 text-base"
+                                    />
+                                </div>
                                 <p className="text-gray-400 text-xs mt-1.5 ml-1">
                                     입찰표 또는 법원 경매 공고에서 확인하실 수 있습니다
                                 </p>
@@ -243,7 +260,7 @@ export default function InquiryForm() {
                         <div className="bg-gray-50 rounded-2xl p-4 mb-6 space-y-2.5">
                             <SummaryRow label="이름" value={formData.name} />
                             <SummaryRow label="연락처" value={formData.phone} />
-                            <SummaryRow label="사건번호" value={formData.case_number} />
+                            <SummaryRow label="사건번호" value={fullCaseNumber} />
                             {formData.property_number && (
                                 <SummaryRow label="물건번호" value={formData.property_number} />
                             )}
