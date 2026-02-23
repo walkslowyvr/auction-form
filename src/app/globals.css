@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+:root {
+  --font-noto-sans-kr: 'Noto Sans KR', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-noto-sans-kr), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 단계 표시기 애니메이션 */
+.step-indicator {
+  transition: all 0.3s ease;
+}
+
+/* 폼 카드 */
+.form-card {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 입력 필드 포커스 효과 */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
