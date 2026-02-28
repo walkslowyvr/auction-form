@@ -75,6 +75,7 @@ export default function InquiryForm() {
                 inquiry: formData.inquiry.trim() || null,
             });
             if (sbError) throw sbError;
+
             setIsSuccess(true);
         } catch {
             setError('제출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
@@ -349,7 +350,7 @@ function SuccessScreen({
     threads: string;
 }) {
     const socialLinks = [
-        { url: instagram, label: 'Instagram', icon: '📸', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
+        { url: instagram || 'https://www.instagram.com/jeju.auction', label: '@jeju.auction', icon: '📸', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
         { url: youtube, label: 'YouTube', icon: '📺', color: 'bg-red-500' },
         { url: threads, label: 'Threads', icon: '🧵', color: 'bg-gray-900' },
     ].filter(s => s.url);
